@@ -18,19 +18,20 @@ class ViewController: UIViewController {
     var seconds = 0
     var timer = Timer()
 
-    @IBAction func startButtonDidTouch(_ sender: Any) {
-        if !timer.isValid {
-            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
-            disableStartButtonOnly()
+    @IBAction func startButtonTapped(_ sender: Any) {
+        guard !timer.isValid else {
+            return
         }
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        disableStartButtonOnly()
     }
     
-    @IBAction func pauseButtonDidTouch(_ sender: Any) {
+    @IBAction func pauseButtonTapped(_ sender: Any) {
         timer.invalidate()
         disablePauseButtonOnly()
     }
 
-    @IBAction func resetButtonDidTouch(_ sender: Any) {
+    @IBAction func resetButtonTapped(_ sender: Any) {
         timer.invalidate()
         seconds = 0
         timerLabel.text = "\(seconds)"
