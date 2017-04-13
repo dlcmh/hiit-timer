@@ -10,9 +10,70 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var timerLabel: UILabel!
+    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var pauseButton: UIButton!
+    @IBOutlet weak var resetButton: UIButton!
+    
+    var seconds = 0
+    var timer = Timer()
+
+    @IBAction func startButtonDidTouch(_ sender: Any) {
+        if !timer.isValid {
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+            disableStartButtonOnly()
+        }
+    }
+    
+    @IBAction func pauseButtonDidTouch(_ sender: Any) {
+        timer.invalidate()
+        disablePauseButtonOnly()
+    }
+
+    @IBAction func resetButtonDidTouch(_ sender: Any) {
+        timer.invalidate()
+        seconds = 0
+        timerLabel.text = "\(seconds)"
+        enableStartButtonOnly()
+    }
+
+    func updateTimer() {
+        seconds += 1
+        timerLabel.text = "\(seconds)"
+    }
+    
+    func disableStartButtonOnly() {
+        disable(button: startButton)
+        enable(button: pauseButton)
+        enable(button: resetButton)
+    }
+
+    func disablePauseButtonOnly() {
+        disable(button: pauseButton)
+        enable(button: startButton)
+        enable(button: resetButton)
+    }
+
+    func enableStartButtonOnly() {
+        enable(button: startButton)
+        disable(button: pauseButton)
+        disable(button: resetButton)
+    }
+
+    func enable(button: UIButton) {
+        button.isEnabled = true
+        button.alpha = 1.0
+    }
+
+    func disable(button: UIButton) {
+        button.isEnabled = false
+        button.alpha = 0.5
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        enableStartButtonOnly()
     }
 
     override func didReceiveMemoryWarning() {
