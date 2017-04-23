@@ -24,11 +24,13 @@ class ViewController: UIViewController {
         }
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         disableStartButtonOnly()
+        startButton.setTitle("Running", for: .normal)
     }
     
     @IBAction func pauseButtonTapped(_ sender: Any) {
         timer.invalidate()
         disablePauseButtonOnly()
+        startButton.setTitle("Resume", for: .normal)
     }
 
     @IBAction func resetButtonTapped(_ sender: Any) {
@@ -36,6 +38,7 @@ class ViewController: UIViewController {
         seconds = 0
         timerLabel.text = "\(seconds)"
         enableStartButtonOnly()
+        startButton.setTitle("Start", for: .normal)
     }
 
     func updateTimer() {
